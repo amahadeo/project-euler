@@ -7,15 +7,19 @@ import "fmt"
 // below 1000.
 
 var limit = 1000
+var multiples = []int{3, 5}
 
 func main() {
 	var sum int
 	for i := 1; i < limit; i++ {
-		if multipleOf(i, 3) || multipleOf(i, 5) {
-			sum += i
+		for _, m := range multiples {
+			if multipleOf(i, m) {
+				sum += i
+				break
+			}
 		}
 	}
-	fmt.Printf("Sum of multiples 3 and 5 under %v: %v", limit, sum)
+	fmt.Printf("Sum of multiples %v under %v: %v", multiples, limit, sum)
 }
 
 func multipleOf(num int, mult int) bool {
