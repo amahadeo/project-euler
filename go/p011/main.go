@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 // In the 20x20 grid below, four numbers along a diagonal line have been marked in red.
 //
 // 08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
@@ -60,14 +62,14 @@ var consecutive = 4
 
 func main() {
 	for y := 0; y < len(grid); y++ {
-		row := grid[y]
-		for x := 0; x < len(row); x++ {
-			//down
-			//left
-			//diagDown
-			//diagUp
+		for x := 0; x < len(grid[y]); x++ {
+			right(x, y)
+			down(x, y)
+			diagUpRight(x, y)
+			diagDownRight(x, y)
 		}
 	}
+	fmt.Printf("The greatest product of %v adjacent numbers in the same direction is %v with the factors being %v\n", consecutive, ans.product, ans.factors)
 }
 
 func right(x, y int) {
@@ -90,8 +92,24 @@ func down(x, y int) {
 	}
 }
 
-func diagDown(x, y int) {
-	//if
+func diagDownRight(x, y int) {
+	if spaceRight(x, y) && spaceDown(y) {
+		factors := make([]int, consecutive)
+		for i := 0; i < consecutive; i++ {
+			factors[i] = grid[y+i][x+i]
+		}
+		checkProduct(factors)
+	}
+}
+
+func diagUpRight(x, y int) {
+	if spaceUp(y) && spaceRight(x, y) {
+		factors := make([]int, consecutive)
+		for i := 0; i < consecutive; i++ {
+			factors[i] = grid[y-i][x+i]
+		}
+		checkProduct(factors)
+	}
 }
 
 func spaceRight(x, y int) bool {
